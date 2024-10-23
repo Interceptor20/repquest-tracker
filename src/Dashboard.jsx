@@ -43,6 +43,7 @@ const Dashboard = () => {
     });
     alert("Your request has been saved successfully!");
     setRequestFormIsVisible(false);
+    setAdminView(false);
   };
 
   const getPriorityColor = (urgency) => {
@@ -113,7 +114,7 @@ const Dashboard = () => {
           </button>
           <button
             onClick={() => {
-              setAdminView(true);
+              setAdminView(!adminView);
               setRequestFormIsVisible(false);
             }}
             className="admin-toggle-btn"
@@ -178,7 +179,7 @@ const Dashboard = () => {
             </form>
           </div>
         )}
-        {adminView == false && (
+        {adminView == false && requestFormIsVisible == false && (
           <>
             <h1>Your Requests</h1>
             <div>
