@@ -13,7 +13,6 @@ import { useState } from "react";
 import Sidebar, { SidebarItem } from "./components/Sidebar";
 
 const Dashboard = () => {
-  const activeMenu = true;
   const [requests, setRequests] = useState([]);
   const [newRequest, setNewRequest] = useState({
     name: "",
@@ -23,6 +22,7 @@ const Dashboard = () => {
   });
 
   const [adminView, setAdminView] = useState(false);
+  const [requestFormIsVisible, setRequestFormIsVisible] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,6 +41,8 @@ const Dashboard = () => {
       complaint: "",
       urgency: "",
     });
+    alert("Your request has been saved successfully!");
+    setRequestFormIsVisible(false);
   };
 
   const getPriorityColor = (urgency) => {
@@ -102,8 +104,24 @@ const Dashboard = () => {
         ))}
       </Sidebar>
       <div className="flex flex-col justify-start w-full dashboard-container">
-        <div>Create Request</div>
-        {!adminView && (
+        <div className="flex flex-row items-end justify-between mb-6 h-fit">
+          <button
+            className="p-[10px] text-white bg-red-500 rounded-md w-fit h-fit"
+            onMouseDown={() => setRequestFormIsVisible(true)}
+          >
+            Create Request
+          </button>
+          <button
+            onClick={() => {
+              setAdminView(true);
+              setRequestFormIsVisible(false);
+            }}
+            className="admin-toggle-btn"
+          >
+            Toggle Admin View
+          </button>
+        </div>
+        {requestFormIsVisible && (
           <div>
             <h1>User Request Dashboard</h1>
             <form onSubmit={handleSubmit} className="request-box">
@@ -160,39 +178,34 @@ const Dashboard = () => {
             </form>
           </div>
         )}
-
-        <h1>Your Requests</h1>
-        <div>
-          {requests.length === 0 ? (
-            <p>No requests yet.</p>
-          ) : (
-            <ul>
-              {requests.map((request, index) => (
-                <li
-                  key={index}
-                  className={`request-list-item ${getPriorityColor(
-                    request.urgency
-                  )}`}
-                >
-                  <strong>{request.name}</strong> - {request.size} Task
-                  <p>Complaint: {request.complaint}</p>
-                  <p>Urgency: {request.urgency}</p>
-                  <p>Status: {request.status}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
+        {adminView == false && (
+          <>
+            <h1>Your Requests</h1>
+            <div>
+              {requests.length === 0 ? (
+                <p>No requests yet.</p>
+              ) : (
+                <ul>
+                  {requests.map((request, index) => (
+                    <li
+                      key={index}
+                      className={`request-list-item ${getPriorityColor(
+                        request.urgency
+                      )}`}
+                    >
+                      <strong>{request.name}</strong> - {request.size} Task
+                      <p>Complaint: {request.complaint}</p>
+                      <p>Urgency: {request.urgency}</p>
+                      <p>Status: {request.status}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </>
+        )}
         <div className="admin-section">
-          <button
-            onClick={() => setAdminView(!adminView)}
-            className="admin-toggle-btn"
-          >
-            Toggle Admin View
-          </button>
-
-          {adminView && (
+          {adminView == true && requestFormIsVisible == false && (
             <div className="admin-view">
               <h1>Admin Request Management</h1>
               {requests.map((request, index) => (

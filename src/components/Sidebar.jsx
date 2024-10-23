@@ -12,8 +12,8 @@ export default function Sidebar({ children }) {
 
   return (
     <aside className="h-screen ">
-      <nav className="h-full flex flex-col bg-white border-r shadow-sm">
-        <div className="p-4 pb-2 flex justify-between items-center">
+      <nav className="flex flex-col h-full bg-white border-r shadow-sm">
+        <div className="flex items-center justify-between p-4 pb-2">
           <img
             src={logo}
             className={`overflow-hidden transition-all ${
@@ -32,7 +32,7 @@ export default function Sidebar({ children }) {
           <ul className="flex-1 px-3">{children}</ul>
         </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
+        <div className="flex p-3 border-t">
           <img src={profile} className="w-10 h-10 rounded-md" />
           <div
             className={`flex justify-between items-center overflow-hidden transition-all ${
@@ -40,10 +40,8 @@ export default function Sidebar({ children }) {
             } `}
           >
             <div className="leading-4">
-              <h4 className="font-semibold">constGenius</h4>
-              <span className="text-xs text-gray-600">
-                constgenius@gmail.com
-              </span>
+              <h4 className="font-semibold">tester</h4>
+              <span className="text-xs text-gray-600">tester@gmail.com</span>
             </div>
             <MoreVertical size={20} />
           </div>
